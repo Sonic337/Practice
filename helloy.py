@@ -1,4 +1,4 @@
 name = "Sonic"
-age = 20
+age = 22
 print("My name is " + name)
 print("I am " + str(age) + " years old")
