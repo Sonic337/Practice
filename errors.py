@@ -4,8 +4,19 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-city = os.environ.get("CITY")
+city = os.environ.get("CITY", "Pune")
 
+valid_cities = ["Pune", "Mumbai", "Delhi"]
+if city not in valid_cities:
+    print(f"Invalid city '{city}', defaulting to Pune")
+    city = "Pune"
+    # rewrite .env with corrected city
+    with open(".env", "r") as f:
+        content = f.read()
+    content = content.replace(f"CITY={os.environ.get('CITY')}", "CITY=Pune")
+    with open(".env", "w") as f:
+        f.write(content)
+    print(".env updated to CITY=Pune")
 if not city:
     raise ValueError("CITY not set in .env file")
 
