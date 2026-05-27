@@ -1,0 +1,13 @@
+{
+    "name": "Sonic",
+    "age": 20,
+    "skills": [
+        "git",
+        "python",
+        "terminal"
+    ],
+    "address": {
+        "city": "Pune",
+        "country": "India"
+    }
+}
