@@ -1,3 +1,4 @@
+#!/Users/sonicsaga/.pyenv/shims/python3
 import sys
 import requests
 import os
