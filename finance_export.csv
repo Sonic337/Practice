@@ -1,0 +1,10 @@
+date,type,amount,category,note
+2026-05-29 00:44:54,income,50000.0,salary,May salary
+2026-05-29 00:45:01,income,50000.0,salary,May salary
+2026-05-29 00:45:13,income,50000.0,salary,May salary
+2026-05-29 00:45:13,expense,15000.0,rent,Monthly rent
+2026-05-29 00:45:14,expense,3000.0,food,Groceries
+2026-05-29 00:45:14,expense,500.0,transport,Uber
+2026-05-29 00:46:00,expense,15000.0,rent,Monthly rent
+2026-05-29 00:46:01,expense,3000.0,food,Groceries
+2026-05-29 00:46:01,expense,500.0,transport,Uber
