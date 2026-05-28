@@ -1,0 +1,19 @@
+timestamp,city,temp_c,feels_like,condition
+2026-05-28 18:14:34,Pune,36,35,Sunny
+2026-05-28 18:14:34,Mumbai,33,43,Partly cloudy
+2026-05-28 18:14:34,Delhi,39,39,Haze
+2026-05-28 18:14:34,Dubai,39,41,Sunny
+2026-05-28 18:14:38,Pune,36,35,Sunny
+2026-05-28 18:14:38,Mumbai,33,43,Partly cloudy
+2026-05-28 18:14:38,Delhi,39,39,Haze
+2026-05-28 18:14:38,Dubai,39,41,Sunny
+2026-05-28 18:14:42,Pune,36,35,Sunny
+2026-05-28 18:14:42,Mumbai,33,43,Partly cloudy
+2026-05-28 18:15:05,Pune,36,35,Sunny
+2026-05-28 18:15:05,Mumbai,33,43,Partly cloudy
+2026-05-28 18:15:05,Delhi,39,39,Haze
+2026-05-28 18:15:05,Dubai,39,41,Sunny
+2026-05-28 18:15:11,Pune,36,35,Sunny
+2026-05-28 18:15:11,Mumbai,33,43,Partly cloudy
+2026-05-28 18:15:11,Delhi,39,39,Haze
+2026-05-28 18:15:11,Dubai,39,41,Sunny
