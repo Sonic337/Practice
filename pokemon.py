@@ -1,4 +1,5 @@
 import requests
+import sys
 
 def get_pokemon(name):
     url = f"https://pokeapi.co/api/v2/pokemon/{name.lower()}"
@@ -23,6 +24,7 @@ def get_pokemon(name):
     print(f"Abilities: {', '.join(abilities)}")
     print(f"Stats: HP={stats['hp']} ATK={stats['attack']} DEF={stats['defense']} SPD={stats['speed']}")
 
-get_pokemon("pikachu")
-get_pokemon("charizard")
-get_pokemon("mewtwo")
+if len(sys.argv) > 1:
+    get_pokemon(sys.argv[1])
+else:
+    print("Usage: python3 pokemon.py <pokemon name>")
