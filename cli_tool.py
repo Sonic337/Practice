@@ -13,9 +13,14 @@ def weather(city):
     desc = data["current_condition"][0]["weatherDesc"][0]["value"]
     print(f"{city}: {temp}°C, {desc}")
 
+def multi(cities):
+    for city in cities:
+        weather(city)
+
 def help():
     print("Usage:")
     print("  python3 cli_tool.py weather <city>")
+    print("  python3 cli_tool.py multi <city1> <city2> ...")
     print("  python3 cli_tool.py help")
 
 if len(sys.argv) < 2:
@@ -25,6 +30,11 @@ elif sys.argv[1] == "weather":
         print("Provide a city name")
     else:
         weather(sys.argv[2])
+elif sys.argv[1] == "multi":
+    if len(sys.argv) < 3:
+        print("Provide at least one city")
+    else:
+        multi(sys.argv[2:])
 elif sys.argv[1] == "help":
     help()
 else:
