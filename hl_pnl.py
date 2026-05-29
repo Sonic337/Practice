@@ -131,7 +131,7 @@ def watch(wallet, drop_threshold):
     starting_pnl = None
     loss_floor = None
     alert_active = False
-    last_pnl_update = time.monotonic()
+    last_pnl_update = None
 
     print(
         f"Watching xyz positions (refresh {refresh_secs}s, "
@@ -146,6 +146,17 @@ def watch(wallet, drop_threshold):
             loss_floor = starting_pnl - drop_threshold
             print(f"Starting PNL: ${starting_pnl:+,.2f}")
             print(f"Loss alert if PNL drops to ${loss_floor:+,.2f} or below")
+
+            msg = format_pnl_message(
+                positions,
+                total_pnl,
+                "👀 Hyperliquid xyz watch started",
+                starting_pnl=starting_pnl,
+                loss_floor=loss_floor,
+            )
+            if send_telegram(msg):
+                print("Telegram watch-start message sent.")
+            last_pnl_update = time.monotonic()
 
         print(f"\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] Hyperliquid xyz — {wallet}")
         print_positions(positions, account_value)

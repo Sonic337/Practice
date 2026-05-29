@@ -1,6 +1,8 @@
+import csv
 import json
 import os
 import sys
+from datetime import datetime
 
 import requests
 from dotenv import load_dotenv
@@ -13,6 +15,7 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
 DB_FILE = os.path.join(os.path.dirname(__file__), "portfolio.json")
+HISTORY_FILE = os.path.join(os.path.dirname(__file__), "portfolio_history.csv")
 PRICE_URL = "https://api.coingecko.com/api/v3/simple/price"
 
 
@@ -88,6 +91,38 @@ def fetch_prices(coin_ids):
     return response.json()
 
 
+def log_history(coin_values, total_value):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    existing_rows = []
+    fieldnames = ["date"]
+
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, "r", newline="") as f:
+            reader = csv.DictReader(f)
+            if reader.fieldnames:
+                fieldnames = reader.fieldnames
+            existing_rows = list(reader)
+
+    coin_cols = [c for c in fieldnames if c not in ("date", "total")]
+    all_coins = sorted(set(coin_cols) | set(coin_values.keys()))
+    fieldnames = ["date"] + all_coins + ["total"]
+
+    for row in existing_rows:
+        for col in fieldnames:
+            row.setdefault(col, "")
+
+    new_row = {"date": timestamp, "total": f"{total_value:.2f}"}
+    for coin in all_coins:
+        if coin in coin_values:
+            new_row[coin] = f"{coin_values[coin]:.2f}"
+
+    with open(HISTORY_FILE, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(existing_rows)
+        writer.writerow(new_row)
+
+
 def show_portfolio():
     portfolio = load_portfolio()
     if not portfolio:
@@ -100,6 +135,7 @@ def show_portfolio():
 
     total_cost = 0.0
     total_value = 0.0
+    coin_values = {}
 
     print(f"\n{'Coin':<18} {'Amount':>12} {'Buy':>12} {'Now':>12} {'Value':>14} {'P/L':>14}")
     print("-" * 86)
@@ -124,6 +160,7 @@ def show_portfolio():
         value = amount * current_price
         pnl = value - cost
         total_value += value
+        coin_values[coin_id] = value
 
         print(
             f"{coin_id:<18} {amount:>12g} ${buy_price:>10,.2f} "
@@ -142,6 +179,35 @@ def show_portfolio():
         )
     else:
         print(f"{'TOTAL':<42} ${total_value:>12,.2f}")
+
+    if coin_values:
+        log_history(coin_values, total_value)
+        print(f"\nLogged snapshot to portfolio_history.csv")
+
+
+def show_history():
+    if not os.path.exists(HISTORY_FILE):
+        print("No history yet. Run 'portfolio show' to log snapshots.")
+        return
+    with open(HISTORY_FILE, "r", newline="") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+    if not rows:
+        print("No history yet. Run 'portfolio show' to log snapshots.")
+        return
+    fieldnames = reader.fieldnames or []
+    coin_cols = [c for c in fieldnames if c not in ("date", "total")]
+    header = f"{'Date':<20}" + "".join(f"{c:>14}" for c in coin_cols) + f"{'Total':>14}"
+    print(f"\n{header}")
+    print("-" * len(header))
+    for row in rows:
+        line = f"{row['date']:<20}"
+        for coin in coin_cols:
+            val = row.get(coin, "")
+            line += f"{('$' + val) if val else 'N/A':>14}"
+        total = row.get("total", "")
+        line += f"{('$' + total) if total else 'N/A':>14}"
+        print(line)
 
 
 def send_telegram(text):
@@ -220,6 +286,7 @@ def print_usage():
     print("  portfolio add <coin> <amount> <buy_price>")
     print("  portfolio remove <coin>")
     print("  portfolio show")
+    print("  portfolio history")
     print("  portfolio list")
     print("  portfolio alert <percent>")
     print("\nExamples:")
@@ -244,6 +311,8 @@ elif args[1] == "remove":
         remove_holding(args[2])
 elif args[1] in ("show", "balance"):
     show_portfolio()
+elif args[1] == "history":
+    show_history()
 elif args[1] == "list":
     list_holdings()
 elif args[1] == "alert":
