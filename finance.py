@@ -60,6 +60,28 @@ def monthly():
     for month in sorted(months.keys()):
         m = months[month]
         print(f"  {month} | Income: Rs{m['income']:,.2f} | Expense: Rs{m['expense']:,.2f} | Balance: Rs{m['income']-m['expense']:,.2f}")
+
+def savings_rate():
+    db = load_db()
+    months = {}
+    for e in db:
+        month = e["date"][:7]
+        if month not in months:
+            months[month] = {"income": 0, "expense": 0}
+        months[month][e["type"]] += e["amount"]
+    if not months:
+        print("No transactions yet.")
+        return
+    print("Monthly savings rate:")
+    for month in sorted(months.keys()):
+        m = months[month]
+        saved = m["income"] - m["expense"]
+        if m["income"] > 0:
+            rate = (saved / m["income"]) * 100
+            print(f"  {month} | {rate:.1f}% saved | Rs{saved:,.2f} of Rs{m['income']:,.2f} income")
+        else:
+            print(f"  {month} | no income | Rs{saved:,.2f} net")
+
 def set_budget(category, amount):
     budgets = {}
     if os.path.exists("budgets.json"):
@@ -88,6 +110,28 @@ def check_budgets():
         spent = categories.get(cat, 0)
         status = "OVER BUDGET" if spent > limit else "ok"
         print(f"  {cat}: Rs{spent:,.2f} / Rs{limit:,.2f} [{status}]")
+
+def top_expenses():
+    db = load_db()
+    expenses = [e for e in db if e["type"] == "expense"]
+    if not expenses:
+        print("No expenses yet.")
+        return
+    top = sorted(expenses, key=lambda e: e["amount"], reverse=True)[:3]
+    print("Top 3 biggest expenses (all time):")
+    for i, e in enumerate(top, 1):
+        print(f"  {i}. {e['date']} | Rs{e['amount']:,.2f} | {e['category']} | {e['note']}")
+
+def biggest_income():
+    db = load_db()
+    incomes = [e for e in db if e["type"] == "income"]
+    if not incomes:
+        print("No income yet.")
+        return
+    top = sorted(incomes, key=lambda e: e["amount"], reverse=True)[:3]
+    print("Top 3 highest income (all time):")
+    for i, e in enumerate(top, 1):
+        print(f"  {i}. {e['date']} | Rs{e['amount']:,.2f} | {e['category']} | {e['note']}")
 
 def search(keyword):
     db = load_db()
@@ -175,6 +219,8 @@ elif args[1] == "export":
     export_csv()
 elif args[1] == "monthly":
     monthly()
+elif args[1] == "savingsrate":
+    savings_rate()
 elif args[1] == "budget":
     set_budget(args[2], args[3])
 elif args[1] == "checkbudget":
@@ -183,6 +229,10 @@ elif args[1] == "search":
     search(" ".join(args[2:]))
 elif args[1] == "chart":
     chart()
+elif args[1] == "top":
+    top_expenses()
+elif args[1] == "biggestincome":
+    biggest_income()
 elif args[1] == "recurring":
     add_recurring(args[2], args[3], args[4], " ".join(args[5:]))
 elif args[1] == "applyrecurring":
