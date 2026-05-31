@@ -6,3 +6,20 @@ __pycache__/
 venv/
 .venv/
 birthday_countdown.py
+
+# personal data files
+finance.json
+budgets.json
+recurring.json
+restaurants.json
+portfolio.json
+weather_log.txt
+weather_data.csv
+finance_export.csv
+portfolio_history.csv
+data.csv
+standup_log.json
+standup_state.json
+standup.launchd.log
+standup.launchd.err
+content_ideas.cron.log
