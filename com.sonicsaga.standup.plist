@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.sonicsaga.standup</string>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/sonicsaga/.pyenv/shims/python3</string>
+		<string>/Users/sonicsaga/practice/standup.py</string>
+	</array>
+
+	<key>WorkingDirectory</key>
+	<string>/Users/sonicsaga/practice</string>
+
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/Users/sonicsaga/.pyenv/shims:/Users/sonicsaga/.pyenv/bin:/usr/local/bin:/usr/bin:/bin</string>
+		<key>PYENV_ROOT</key>
+		<string>/Users/sonicsaga/.pyenv</string>
+	</dict>
+
+	<key>RunAtLoad</key>
+	<true/>
+
+	<key>KeepAlive</key>
+	<true/>
+
+	<key>StandardOutPath</key>
+	<string>/Users/sonicsaga/practice/standup.launchd.log</string>
+
+	<key>StandardErrorPath</key>
+	<string>/Users/sonicsaga/practice/standup.launchd.err</string>
+</dict>
+</plist>
