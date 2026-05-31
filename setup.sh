@@ -7,16 +7,19 @@ LAUNCH_AGENTS="${HOME}/Library/LaunchAgents"
 PLISTS=(
   com.sonicsaga.standup.plist
   com.sonicsaga.hlpnl.plist
+  com.sonicsaga.lighterpnl.plist
 )
 
 LABELS=(
   com.sonicsaga.standup
   com.sonicsaga.hlpnl
+  com.sonicsaga.lighterpnl
 )
 
 SCRIPTS=(
   standup.py
   hl_pnl.py
+  lighter_pnl.py
 )
 
 failures=0
