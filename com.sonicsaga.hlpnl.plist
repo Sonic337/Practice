@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.sonicsaga.hlpnl</string>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/sonicsaga/.pyenv/shims/python3</string>
+		<string>/Users/sonicsaga/practice/hl_pnl.py</string>
+		<string>watch</string>
+		<string>-10</string>
+	</array>
+
+	<key>WorkingDirectory</key>
+	<string>/Users/sonicsaga/practice</string>
+
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/Users/sonicsaga/.pyenv/shims:/Users/sonicsaga/.pyenv/bin:/usr/local/bin:/usr/bin:/bin</string>
+		<key>PYENV_ROOT</key>
+		<string>/Users/sonicsaga/.pyenv</string>
+		<key>PYTHONUNBUFFERED</key>
+		<string>1</string>
+	</dict>
+
+	<key>RunAtLoad</key>
+	<true/>
+
+	<key>KeepAlive</key>
+	<true/>
+
+	<key>StandardOutPath</key>
+	<string>/Users/sonicsaga/practice/hl_pnl.launchd.log</string>
+
+	<key>StandardErrorPath</key>
+	<string>/Users/sonicsaga/practice/hl_pnl.launchd.err</string>
+</dict>
+</plist>
