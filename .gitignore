@@ -1,4 +1,8 @@
 __pycache__/
 *.pyc
+*.pyu
 .env
+.DS_Store
+venv/
+.venv/
 birthday_countdown.py

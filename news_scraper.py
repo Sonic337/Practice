@@ -1,7 +1,11 @@
+import os
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 RSS_URL = "https://www.coindesk.com/arc/outboundfeeds/rss/"
 LIMIT = 10
@@ -32,6 +36,24 @@ def fetch_headlines():
     return headlines
 
 
+def send_to_telegram(headlines):
+    token = os.getenv("TELEGRAM_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    if not token or not chat_id:
+        raise ValueError("TELEGRAM_TOKEN and TELEGRAM_CHAT_ID must be set in .env")
+
+    top3 = headlines[:3]
+    lines = ["*Top 3 Crypto Headlines*\n"]
+    for i, h in enumerate(top3, start=1):
+        lines.append(f"{i}. [{h['title']}]({h['link']})\n   _{h['pub_date']}_")
+    message = "\n".join(lines)
+
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    response = requests.post(url, json={"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}, timeout=15)
+    response.raise_for_status()
+    return response.json()
+
+
 def main():
     headlines = fetch_headlines()
 
@@ -46,6 +68,9 @@ def main():
         print(f"   Published: {headline['pub_date']}")
         print(f"   Link: {headline['link']}")
         print()
+
+    send_to_telegram(headlines)
+    print("Top 3 headlines sent to Telegram.")
 
 
 if __name__ == "__main__":
