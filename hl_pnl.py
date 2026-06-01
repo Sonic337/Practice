@@ -127,7 +127,7 @@ def show_once(wallet):
 
 def watch(wallet, drop_threshold):
     refresh_secs = 30
-    pnl_update_interval = 30 * 60
+    pnl_update_interval = 90 * 60
     starting_pnl = None
     loss_floor = None
     alert_active = False
@@ -135,7 +135,7 @@ def watch(wallet, drop_threshold):
 
     print(
         f"Watching xyz positions (refresh {refresh_secs}s, "
-        f"PNL update every 30m, alert on ${drop_threshold:,.2f} drop from start)"
+        f"PNL update every 90m, alert on ${drop_threshold:,.2f} drop from start)"
     )
 
     while True:
