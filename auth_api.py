@@ -5,9 +5,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # simulate an authenticated API call using headers
+api_token = os.environ.get("MY_API_KEY") or "demo-token"
 headers = {
-    "Authorization": "Bearer your-token-here",
-    "Content-Type": "application/json"
+    "Authorization": f"Bearer {api_token}",
+    "Content-Type": "application/json",
 }
 
 # using a free public API that accepts headers

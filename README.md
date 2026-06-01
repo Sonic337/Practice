@@ -8,14 +8,9 @@ A collection of Python scripts built while learning Python, APIs, Telegram bots,
 pip3 install -r requirements.txt
 ```
 
-Create a `.env` file with the secrets each script needs (see per-script notes below):
-```
-CITY=Pune
-TELEGRAM_TOKEN=your-bot-token
-TELEGRAM_CHAT_ID=your-chat-id
-HYPERLIQUID_WALLET=0x...
-OMDB_API_KEY=your-key
-MY_API_KEY=your-key
+Copy `.env.example` to `.env` and fill in real values (`.env` is gitignored):
+```bash
+cp .env.example .env
 ```
 
 ---
@@ -47,6 +42,14 @@ Fetches your open positions and P&L from Hyperliquid and sends a summary to Tele
 python3 hl_pnl.py
 ```
 Requires: `HYPERLIQUID_WALLET`, `TELEGRAM_TOKEN`, `TELEGRAM_CHAT_ID`
+
+### lighter_pnl.py
+Fetches open positions and P&L from Lighter (same watch/alert pattern as `hl_pnl.py`).
+```bash
+python3 lighter_pnl.py
+python3 lighter_pnl.py watch 5
+```
+Requires: `LIGHTER_WALLET`, `TELEGRAM_TOKEN`, `TELEGRAM_CHAT_ID`
 
 ### hl_alert.py
 Polls Hyperliquid and sends a Telegram message the moment a tracked token goes live.

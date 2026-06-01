@@ -221,7 +221,7 @@ def send_telegram(text):
         timeout=15,
     )
     if response.status_code != 200:
-        print(f"Telegram error: {response.status_code} {response.text}")
+        print(f"Telegram error: {response.status_code}")
         sys.exit(1)
 
 

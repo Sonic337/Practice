@@ -22,4 +22,12 @@ standup_log.json
 standup_state.json
 standup.launchd.log
 standup.launchd.err
+hl_pnl.launchd.log
+hl_pnl.launchd.err
+lighter_pnl.launchd.log
+lighter_pnl.launchd.err
 content_ideas.cron.log
+
+# env variants (keep .env.example tracked)
+.env.*
+!.env.example

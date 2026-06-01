@@ -15,6 +15,12 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
 
+def mask_wallet(wallet):
+    if not wallet or len(wallet) < 10:
+        return "(wallet)"
+    return f"{wallet[:6]}...{wallet[-4:]}"
+
+
 def fetch_clearinghouse_state(wallet):
     response = requests.post(
         INFO_URL,
@@ -63,7 +69,7 @@ def send_telegram(text):
         timeout=15,
     )
     if response.status_code != 200:
-        print(f"Telegram error: {response.status_code} {response.text}")
+        print(f"Telegram error: {response.status_code}")
         return False
     return True
 
@@ -121,7 +127,7 @@ def print_positions(positions, account_value=None):
 
 def show_once(wallet):
     positions, account_value, _ = get_snapshot(wallet)
-    print(f"Hyperliquid xyz — {wallet}")
+    print(f"Hyperliquid xyz — {mask_wallet(wallet)}")
     return print_positions(positions, account_value)
 
 
@@ -158,7 +164,9 @@ def watch(wallet, drop_threshold):
                 print("Telegram watch-start message sent.")
             last_pnl_update = time.monotonic()
 
-        print(f"\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] Hyperliquid xyz — {wallet}")
+        print(
+            f"\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] Hyperliquid xyz — {mask_wallet(wallet)}"
+        )
         print_positions(positions, account_value)
 
         now = time.monotonic()
